@@ -1168,7 +1168,7 @@ manage(Window w, XWindowAttributes *wa) {
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
 	if(c->isfloating)
 		XRaiseWindow(dpy, c->win);
-	
+
 	//attach(c);
 	attachabove(c);
 	attachstack(c);
@@ -1498,7 +1498,7 @@ sendmon(Client *c, Monitor *m) {
 	c->mon = m;
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
 	attach(c);
-	//attachabove(c);	
+	//attachabove(c);
 	attachstack(c);
 	focus(NULL);
 	arrange(NULL);
@@ -2160,43 +2160,34 @@ zoom(const Arg *arg) {
 void
 cycleStack(void) {
 	Monitor *m = selmon;
-	Client *c;
-	Client *top;
-	Client *bottom;
+	Client *c = NULL, *i;
 
-	unsigned int n;
-
-	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if(n == 0)
+	if(!selmon->sel)
 		return;
 
-	/* master */
-	c = nexttiled(m->clients);
-	if(--n == 0)
-		return;
+	for(i = selmon->clients; i != selmon->sel; i = i->next)
+		if(ISVISIBLE(i))
+				c = i;
+	if(!c)
+		for(; i; i = i->next)
+			if(ISVISIBLE(i))
+				c = i;
 
-	/* stack */
-	c = top = nexttiled(c->next);
-	//arrange(c->mon);
-
-	do{	
-		c = nexttiled(c->next);	
-	}while(nexttiled(c->next));
-	
-	bottom = c;
-
-	bottom->next = top;
-	top->next = bottom;
-	arrange(c->mon);	
+	if(c) {
+		focus(c);
+		restack(selmon);
+	}
 }
 
 
 int
 main(int argc, char *argv[]) {
-	if(argc == 2 && !strcmp("-v", argv[1]))
-		die("dwm-"VERSION", © 2006-2010 dwm engineers, see LICENSE for details\n");
-	else if(argc != 1)
+	if(argc == 2 && !strcmp("-v", argv[1])){
+		die("dwm-custom, 2006-2010 dwm engineers, see LICENSE for details\n");
+	}
+	else if(argc != 1){
 		die("usage: dwm [-v]\n");
+	}
 	if(!setlocale(LC_CTYPE, "") || !XSupportsLocale())
 		fputs("warning: no locale support\n", stderr);
 	if(!(dpy = XOpenDisplay(NULL)))

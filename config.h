@@ -1,6 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 
-/* appearance */ 
+/* appearance */
 static const char font[]            = "-misc-droid sans mono-medium-r-*-*-10-120-*-*-*-*-*-1";
 static const char normbordercolor[] = "#333333";
 static const char normbgcolor[]     = "#051121";
@@ -25,7 +25,7 @@ static const Rule rules[] = {
 	{ "Transmission",NULL,     NULL,       	1 << 3,       False , 	   -1},
 	{ "Pidgin"	,NULL,     NULL,       	1 << 5,       True , 	   -1},
 	{ "QEMU"	,NULL,     NULL,       	1 << 5,       False , 	   -1},
-	{ "Eclipse"	,NULL,     NULL,       	1 << 4,       False , 	   -1},
+	{ "Eclipse"	,NULL,     NULL,       	1 << 4,       False , 	   -1}, //TODO CHANGE TO 5
 	{ "Giggle"	,NULL,     NULL,       	1 << 4,       False , 	   -1},
 };
 
@@ -54,26 +54,33 @@ static const Layout layouts[] = {
 
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbgcolor, "-sf", selfgcolor, NULL };
-static const char *termcmd[]  = { "uxterm", NULL };
+static const char *termcmd[]  = { "gnome-terminal", NULL };
+static const char *firefoxcmd[]  = { "firefox", NULL };
+static const char *browsercmd[]  = { "pcmanfm", NULL };
+static const char *musiccmd[]  = { "rhythmbox", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	//{ MODKEY,                       XK_b,      togglebar,      {0} }, 
-	//{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
-	//{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	//{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	//{ MODKEY,                       XK_b,      togglebar,      {0} },
+	
+	{ Mod4Mask,           		  XK_x,      spawn,  	    {.v = musiccmd } },
+	{ Mod4Mask,           		  XK_v,      spawn,  	    {.v = browsercmd } },
+	{ Mod4Mask,           		  XK_c,      spawn,  	    {.v = firefoxcmd } },
+	{ Mod4Mask,           		  XK_z, 	   spawn,          {.v = termcmd } },
+	{ MODKEY|ControlMask,           XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_q,      cycleStack,     {0} },
-	{ MODKEY,                       XK_Tab,    cycleView,      {0} },
+	{ MODKEY,                       XK_Tab,    cycleView,      {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_Tab,    cycleView,      {.i = -1 } },
 	{ ControlMask|ShiftMask,        XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_b,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
