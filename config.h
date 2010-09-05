@@ -9,7 +9,7 @@ static const char selbordercolor[]  = "#009999";
 static const char selbgcolor[]      = "#1793D1";
 static const char selfgcolor[]      = "#FFFFFF";
 static unsigned int borderpx        = 1;        /* border pixel of windows */
-static unsigned int snap            = 32;       /* snap pixel */
+static unsigned int snap            = 24;       /* snap pixel */
 static Bool showbar                 = True;     /* False means no bar */
 static Bool topbar                  = True;     /* False means bottom bar */
 /* tagging */
@@ -62,7 +62,7 @@ static const char *musiccmd[]  = { "rhythmbox", NULL };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	//{ MODKEY,                       XK_b,      togglebar,      {0} },
-	
+
 	{ Mod4Mask,           		  XK_x,      spawn,  	    {.v = musiccmd } },
 	{ Mod4Mask,           		  XK_v,      spawn,  	    {.v = browsercmd } },
 	{ Mod4Mask,           		  XK_c,      spawn,  	    {.v = firefoxcmd } },
